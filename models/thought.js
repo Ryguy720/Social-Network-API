@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
-const thoughtSchema = require('./user');
+const reactionSchema = require('./Reaction');
+const formatDate = require('../utils/data')
 
 // Schema to create Thought model
 const thoughtSchema = new Schema(
@@ -13,7 +14,7 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date ,
       default: Date.now, 
-      //Need getter method for timestamp
+      get: timestamp => formatDate(timestamp)
     },
     username: {
       type: String,
@@ -24,6 +25,7 @@ const thoughtSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      getters: true,
     },
     id: false,
   }
