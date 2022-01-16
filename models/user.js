@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const userName = new Schema(
+const userSchema = new Schema(
   {
     username: {
       type: String,
@@ -17,9 +17,15 @@ const userName = new Schema(
       match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
 
-    thoughts: [Thoughtschema], //Are these ID values?
+    thoughts: [{
+      type: Schema.Types.ObjectId, 
+      ref: 'Thought'
+    }], //Are these ID values?
 
-    friends: [userName],  //Are these ID values?
+    friends: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }],  //Are these ID values?
   },
   {
     toJSON: {
@@ -29,11 +35,11 @@ const userName = new Schema(
 );
 
 // Create a virtual property `friendCount` that gets the length of users friends array.
-userName
+userSchema
   .virtual('friendCount').get(function () {
-    return `${this.friends.length}`;
+    return this.friends.length;
   });
 
-const User = model('username', userName);
+const User = model('User', userSchema);
 
 module.exports = User;
