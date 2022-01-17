@@ -5,16 +5,16 @@ const {
   createThought,
   updateThought,
   deleteThought,
-} = require('../../../controllers/Usercontroller');
+} = require('../../../controllers/Thoughtcontroller');
 
 // /api/Users
-router.route('/').get(getAllUsers).post(createUser);
+router.route('/').get(getAllThoughts).post(createThought);
 
 // /api/courses/:courseId
 router
   .route('../../models/user')
-  .get(getUser)
-  .put(updateUser)
-  .delete(deleteUser);
+  .get(getThought)
+  .put(updateThought)
+  .delete(deleteThought);
 
 module.exports = router;

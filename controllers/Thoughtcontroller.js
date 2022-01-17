@@ -2,7 +2,7 @@ const { User, Thought } = require('../models');
 
 module.exports = {
   // Get all Thoughts
-  getAllUsers(req, res) {
+  getAllThoughts(req, res) {
     Thought.find()
       .then(thoughtdata => {
         return res.json(thoughtdata);
@@ -13,7 +13,7 @@ module.exports = {
       });
   },
   // Get a single Thought
-  getUser(req, res) {
+  getThought(req, res) {
     Thought.findOne({ _id: req.params.thoughtId })
       .select('-__v')
       .populate('thoughts')
