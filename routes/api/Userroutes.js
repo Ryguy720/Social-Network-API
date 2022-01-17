@@ -14,7 +14,7 @@ router.route('/').get(getAllUsers).post(createUser);
 router
   .route('../../models/user')
   .get(getUser)
-  .put(updateCourse)
-  .delete(deleteCourse);
+  .put(updateUser)
+  .delete(deleteUser);
 
 module.exports = router;
