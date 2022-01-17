@@ -34,7 +34,7 @@ module.exports = {
   },
   // Delete a user and thoughts
   deleteUser(req, res) {
-    User.findOneAndRemove({ _id: req.params.UserId })
+    User.findOneAndRemove({ _id: req.params.userId })
       .then(userdata =>
         !userdata
           ? res.status(404).json({ message: 'No such User exists' })
@@ -59,7 +59,7 @@ module.exports = {
   // Update User
   updateUser(req, res) {
     User.findOneAndUpdate(
-      { _id: req.params.UserId },
+      { _id: req.params.userId },
       { runValidators: true, new: true }
     )
       .then(userdata =>
