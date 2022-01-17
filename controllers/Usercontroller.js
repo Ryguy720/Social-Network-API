@@ -2,7 +2,7 @@ const { User, Thought } = require('../models');
 
 const userController = {
     // Get all Users
-    getallUsers(req, res) {
+    getAllUsers(req, res) {
       User.find()
         .then(userdata => {
           return res.json(userdata);
@@ -13,7 +13,7 @@ const userController = {
         });
     },
     // Get a single User
-    getSingleUser(req, res) {
+    getUser(req, res) {
       User.findOne({ _id: req.params.userId })
         .select('-__v')
         .populate('thoughts')
