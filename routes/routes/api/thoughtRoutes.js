@@ -12,7 +12,7 @@ router.route('/').get(getAllThoughts).post(createThought);
 
 // /api/courses/:courseId
 router
-  .route('../../models/user')
+  .route('/profile')
   .get(getThought)
   .put(updateThought)
   .delete(deleteThought);
