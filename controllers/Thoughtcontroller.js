@@ -14,7 +14,8 @@ module.exports = {
   },
   // Get a single Thought
   getThought(req, res) {
-    Thought.findOne({ _id: req.params.thoughtId })
+    console.log(req.params.id)
+    Thought.findOne({ _id: req.params.id })
       .select('-__v')
       .populate('thoughts')
       .populate('friends')
@@ -34,7 +35,7 @@ module.exports = {
   },
   // Delete a user and thoughts
   deleteThought(req, res) {
-    Thought.findOneAndRemove({ _id: req.params.thoughtId })
+    Thought.findOneAndRemove({ _id: req.params.id })
       .then(thoughtdata =>
         !thoughtdata
           ? res.status(404).json({ message: 'No such Thought exists' })
