@@ -2,15 +2,24 @@ const { User, Thought } = require('../models');
 
 module.exports = {
   // Get all Thoughts
+  // getAllThoughts(req, res) {
+  //   Thought.find({})
+  //     .then(thoughtdata => {
+  //       return res.json(thoughtdata);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       return res.status(500).json(err);
+  //     });
+  // },
+
   getAllThoughts(req, res) {
-    Thought.find()
-      .then(thoughtdata => {
-        return res.json(thoughtdata);
-      })
-      .catch((err) => {
-        console.log(err);
-        return res.status(500).json(err);
-      });
+    //populate thought data with verison and send a response back
+    Thought.find({})
+      .populate({ path: 'reactions', select: '-__v' })
+      .select('-__v')
+      .then(thoughtdata => res.json(thoughtdata))
+      .catch(err => res.status(500).json({ err: err.message }))
   },
   // Get a single Thought
   getThought(req, res) {
@@ -74,4 +83,28 @@ module.exports = {
   },
 
 
+  createReaction({ params, body }, res) {
+    console.log(body)
+    Thought.findOneAndUpdate(
+      { _id: params.thoughtId },
+      { $push: { reactions: body } },
+      { new: true, runValidators: true })
+      .populate("reactions")
+      .select("-__v")
+      .then((thoughtdata) =>
+        !thoughtdata
+          ? res
+            .status(404)
+            .json({ message: "No thought found with this ID" })
+          : res.json(thoughtdata)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+  // remove a reaction from thought
+  removeReaction(req, res) {
+    Thought.findOneAndUpdate({ _id: req.params.id },
+      { $pull: { reactions: { _id: req.params.id } } },
+      { new: true })
+      .then((thought) => !thought ? res.status(404).json({ message: "No thought found with this ID" }) : res.json(thought)).catch((err) => res.status(500).json(err));
+  },
 };

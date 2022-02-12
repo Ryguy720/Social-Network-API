@@ -59,7 +59,7 @@ module.exports = {
   // Update User
   updateUser(req, res) {
     User.findOneAndUpdate(
-      { _id: req.params.id },
+      { _id: req.params.id }, { $set: req.body },
       { runValidators: true, new: true }
     )
       .then(userdata =>
@@ -72,5 +72,22 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
+  // add a friend to user
+  addFriend(req, res) {
+    User.findOneAndUpdate({ _id: req.params.id },
+        { $push: { friends: params.friendId } },
+        { new: true, runValidators: true })
+    .then((userdata) => res.json(userdata))
+    .catch(err => res.status(400).json({err : err.message}))
+},
+
+// remove a friend from user 
+removeFriend(req, res) {
+    User.findOneAndRemove({ _id: req.params.id })
+    .then(userdata => res. status(200).json(userdata).json(user204Message(params.friendId, 'User')))
+    .catch(err => res.json({err : err.message}))
+}
 
 };
+
+
